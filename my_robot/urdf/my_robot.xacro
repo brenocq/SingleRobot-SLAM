@@ -31,19 +31,15 @@
     </inertial>
 
     <collision name='collision'>
-	<!--origin xyz="0 0 0" rpy=" 0 0 0"/-->
       <origin xyz="0 0 0" rpy=" 0 0 0"/> 
       <geometry>
-        <!--box size=".4 .2 .1"/-->
 		<cylinder radius="0.2" length="0.3"/>
       </geometry>
     </collision>
 
     <visual name='chassis_visual'>
-      <!--origin xyz="0 0 0" rpy=" 0 0 0"/-->
 	  <origin xyz="0 0 0" rpy=" 0 0 0"/> 
       <geometry>
-        <!--box size=".4 .2 .1"/-->
 		<cylinder radius="0.2" length="0.3"/>
       </geometry>
     </visual>
@@ -158,32 +154,32 @@
     </collision>
   </link>
 
- <link name='camera_link_optical'>
-	<pose>0 0 0 -1.5707 0 -1.5707</pose>
-    <inertial>
-      <mass value="1e-5"/>
-      <origin xyz="0 0 0" rpy=" -1.5707 0 -1.5707"/>
-      <inertia
-	  ixx="1e-6" ixy="0" ixz="0"
-	  iyy="1e-6" iyz="0"
-	  izz="1e-6"
-      />
-    </inertial>
 
-    <visual name='camera_link_visual'>
-      <origin xyz="0 0 0" rpy=" -1.5707 0 -1.5707"/>
-      <geometry>
+	<link name='camera_link'>
+		<inertial>
+		  <mass value="0.1"/>
+		  <origin xyz="0.05 0.05 0.05" rpy=" 0 0 0"/>
+		  <inertia
+		  ixx="1e-6" ixy="0" ixz="0"
+		  iyy="1e-6" iyz="0"
+		  izz="1e-6"
+		  />
+		</inertial>
+
+		<visual>
+		  <origin xyz="0 0 0" rpy=" 0 0 0"/>
+		  <geometry>
 		<box size=".05 .05 .05"/>
-      </geometry>
-    </visual>
+		  </geometry>
+		</visual>
 
-    <collision name='camera_link_collision'>
-      <origin xyz="0 0 0" rpy=" -1.5707 0 -1.5707"/>
-      <geometry>
-	<box size=".1 .1 .1"/>
-      </geometry>
-    </collision>
-  </link>
+		<collision>
+		  <origin xyz="0 0 0" rpy=" 0 0 0"/>
+		  <geometry>
+		<box size=".05 .05 .05"/>
+		  </geometry>
+		</collision>
+	</link>
 
 <!-- Joints -->
 
@@ -218,12 +214,19 @@
     <axis xyz="0 1 0" rpy="0 0 0"/>
   </joint>
 
-<joint type="fixed" name="camera_optical_joint">
-    <origin xyz="0 0 0" rpy="-1.5707 0 0"/>
+<joint name="camera_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.5707 0 -1.5707"/>
+    <parent link="camera_link"/>
     <child link="camera_link_optical"/>
+  </joint>
+<joint name="camera_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
     <parent link="chassis"/>
+    <child link="camera_link"/>
   </joint>
 
+  <link name="camera_link_optical">
+  </link>
 
 </robot>
 
